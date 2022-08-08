@@ -25,6 +25,7 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
   var uuid = const Uuid();
   final formKey = GlobalKey<FormState>();
   MemberFormController memberFormController = Get.put(MemberFormController());
+  TextEditingController clubNameController = TextEditingController();
   addForm() {
     setState(() {
       MemberModel memberModel = MemberModel(id: uuid.v1());
@@ -65,11 +66,12 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
           memberFormController.isValidateRadio.value = false;
         } else {
           memberFormController.clubList.add(ClubModel(
-              clubName: 'Test', listmember: memberFormController.memberList));
+              clubName: clubNameController.text,
+              listmember: memberFormController.memberList));
           formKey.currentState!.save();
           print(memberFormController.clubList.length);
           print(memberFormController.memberList.length);
-          Get.to(MyHomePage());
+          Get.to(const MyHomePage());
           memberFormController.isValidateRadio.value = true;
           memberFormController.isValidateDate.value = true;
         }
@@ -80,7 +82,9 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF3F4DB0),
       body: SafeArea(
+        
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(15),
@@ -95,6 +99,7 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
                       }
                       return null;
                     },
+                    controller: clubNameController,
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(20),
