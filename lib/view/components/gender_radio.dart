@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import '../member_form.dart';
 
 class GenderRadio extends StatefulWidget {
-  const GenderRadio({Key? key, required this.widget}) : super(key: key);
+  const GenderRadio({
+    Key? key,
+    required this.widget,
+  }) : super(key: key);
   final MemberForm widget;
 
   @override
@@ -15,6 +18,7 @@ class GenderRadio extends StatefulWidget {
 class _GenderRadioState extends State<GenderRadio> {
   int radioValue = 0;
   MemberFormController memberFormController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -62,8 +66,16 @@ class _GenderRadioState extends State<GenderRadio> {
             ),
           ],
         ),
+        // memberFormController.radioValue.value == 0 &&
+        //         memberFormController.isValidateRadio.value == true
+        //     ? const Text(
+        //         'Please select your gender',
+        //         style: TextStyle(color: Color(0xffD53F45)),
+        //       )
+        //     : Container(),
         Obx((() {
-          if (memberFormController.isValidateRadio.value == false) {
+          if (memberFormController.radioValue.value == 0 &&
+              memberFormController.isValidateRadio.value == true) {
             return const Center(
               child: Text(
                 'Please select your gender',

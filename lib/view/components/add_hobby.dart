@@ -5,11 +5,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../hobby_form.dart';
 import 'button_widget.dart';
 
 class AddHobby extends StatefulWidget {
-  const AddHobby({Key? key, required this.addHobby}) : super(key: key);
+  const AddHobby({Key? key, required this.addHobby, required this.hobbiesList})
+      : super(key: key);
   final Function addHobby;
+  final List<HobbyForm> hobbiesList;
 
   @override
   State<AddHobby> createState() => _AddHobbyState();
@@ -21,21 +24,25 @@ class _AddHobbyState extends State<AddHobby> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        memberFormController.hobbiesList.isEmpty
+        widget.hobbiesList.isEmpty
             ? Container()
             : ListView.builder(
                 shrinkWrap: true,
-                itemCount: memberFormController.hobbiesList.length,
+                itemCount: widget.hobbiesList.length,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: ((context, index) {
-                  return memberFormController.hobbiesList[index];
+                  return widget.hobbiesList[index];
                 }),
               ),
-        memberFormController.hobbiesList.length == 5
+        widget.hobbiesList.length == 5
             ? Container()
             : Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ButtonWidget(title: 'Add Hobby', ontap: widget.addHobby),
+                child: ButtonWidget(
+                    title: 'Add Hobby',
+                    ontap: () {
+                      widget.addHobby();
+                    }),
               )
       ],
     );

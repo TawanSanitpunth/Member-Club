@@ -26,7 +26,6 @@ class HobbyForm extends StatefulWidget {
 
 class _HobbyFormState extends State<HobbyForm> {
   MemberFormController memberFormController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,9 +37,7 @@ class _HobbyFormState extends State<HobbyForm> {
             child: TextFormField(
               onSaved: (text) {
                 widget.hobbyModel.title = text;
-                memberFormController.listHobby
-                    .add(widget.hobbyModel.title ?? "");
-                widget.memberModel.listHobby = memberFormController.listHobby;
+                widget.memberModel.listHobby?.add(text ?? "");
                 print(widget.memberModel.listHobby);
               },
               validator: (value) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/model/check_box_model.dart';
 import 'package:club_member/model/club_model.dart';
@@ -26,6 +28,8 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
   final formKey = GlobalKey<FormState>();
   MemberFormController memberFormController = Get.put(MemberFormController());
   TextEditingController clubNameController = TextEditingController();
+  List<MemberModel> memberList = <MemberModel>[];
+
   addForm() {
     setState(() {
       MemberModel memberModel = MemberModel(id: uuid.v1());
@@ -36,11 +40,9 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
           removeForm(memberModel);
         },
       ));
-      memberFormController.memberList.add(memberModel);
-      memberFormController.isValidateRadio.value = true;
-      // memberFormController.isValidateDate.value = false;
+      memberList.add(memberModel);
+      memberFormController.isValidateRadio.value = false;
       memberFormController.radioValue.value == 0;
-      print(memberFormController.memberList.length);
     });
   }
 
@@ -52,39 +54,56 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
       if (memberFormController.memberForm.isNotEmpty) {
         print("Deleted");
         memberFormController.memberForm.removeAt(index);
-        memberFormController.memberList.removeAt(index);
-        print(memberFormController.memberList.length);
+        memberList.removeAt(index);
       }
     });
   }
 
   onSave() {
+    memberFormController.isValidateRadio.value = true;
+    memberFormController.radioValue.value == 0;
+    log(memberFormController.isValidateRadio.value.toString());
     if (memberFormController.memberForm.isNotEmpty) {
-      if (formKey.currentState!.validate() ||
-          memberFormController.isValidateDate.value == true) {
-        if (memberFormController.radioValue.value == 0) {
-          memberFormController.isValidateRadio.value = false;
-        } else {
-          memberFormController.clubList.add(ClubModel(
-              clubName: clubNameController.text,
-              listmember: memberFormController.memberList));
-          formKey.currentState!.save();
-          print(memberFormController.clubList.length);
-          print(memberFormController.memberList.length);
-          Get.to(const MyHomePage());
-          memberFormController.isValidateRadio.value = true;
-          memberFormController.isValidateDate.value = true;
-        }
+      if (formKey.currentState!.validate() &&
+          memberFormController.radioValue.value != 0) {
+        formKey.currentState!.save();
+        log(memberFormController.clubList.toSet().toString());
+        memberFormController.clubList.add(ClubModel(
+            clubName: clubNameController.text, listmember: memberList));
+        log(memberFormController.clubList.toSet().toString());
+        print(memberFormController.clubList.length);
+        Get.to(const MyHomePage());
+        memberFormController.isValidateRadio.value = true;
+        memberFormController.isValidateDate.value = true;
       }
     }
+  }
+
+  saveMock() {
+    List<MemberModel> mockData = [
+      MemberModel(
+        id: uuid.v1(),
+        firstName: "firstName ${memberFormController.clubList.length}",
+        lastName: "lastName ${memberFormController.clubList.length}",
+        gender: "Male ${memberFormController.clubList.length}",
+        birthDate: "18/06/1994${memberFormController.clubList.length}",
+        phoneNumber: "1234567890${memberFormController.clubList.length}",
+        city: "city${memberFormController.clubList.length}",
+        province: "Province${memberFormController.clubList.length}",
+        country: "Country${memberFormController.clubList.length}",
+        zipCode: "5000${memberFormController.clubList.length}",
+      )
+    ];
+    memberFormController.clubList
+        .add(ClubModel(clubName: "Test", listmember: mockData));
+    log(memberFormController.clubList.toSet().toString());
+    Get.to(const MyHomePage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF3F4DB0),
       body: SafeArea(
-        
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(15),
@@ -96,6 +115,9 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your Club name';
+                      }
+                      if (memberList.isEmpty) {
+                        return 'Please enter your member atlease 1';
                       }
                       return null;
                     },
@@ -138,6 +160,15 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
                     title: 'Summit',
                     ontap: () {
                       onSave();
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ButtonWidget(
+                    title: 'Test',
+                    ontap: () {
+                      saveMock();
                     },
                   )
                 ],

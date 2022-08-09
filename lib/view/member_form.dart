@@ -24,12 +24,12 @@ import 'components/zip_code_textField.dart';
 import 'hobby_form.dart';
 
 class MemberForm extends StatefulWidget {
-  const MemberForm(
-      {Key? key,
-      required this.index,
-      required this.memberModel,
-      required this.removeForm})
-      : super(key: key);
+  const MemberForm({
+    Key? key,
+    required this.index,
+    required this.memberModel,
+    required this.removeForm,
+  }) : super(key: key);
   final int index;
   final MemberModel memberModel;
   final Function removeForm;
@@ -42,11 +42,15 @@ class _MemberFormState extends State<MemberForm> {
   MemberFormController memberFormController = Get.find();
   Uuid uuid = const Uuid();
 
+  List<HobbyForm> hobbiesList = List.empty(growable: true);
   addHobby() {
     setState(() {
-      HobbyModel hobbyModel = HobbyModel(id: uuid.v1());
-      memberFormController.hobbiesList.add(HobbyForm(
-          index: memberFormController.hobbiesList.length,
+      HobbyModel hobbyModel = HobbyModel(
+        id: uuid.v1(),
+      );
+      widget.memberModel.listHobby = [];
+      hobbiesList.add(HobbyForm(
+          index: hobbiesList.length,
           hobbyModel: hobbyModel,
           memberModel: widget.memberModel,
           removeHobby: () {
@@ -57,12 +61,12 @@ class _MemberFormState extends State<MemberForm> {
 
   removeHobby(HobbyModel hobbyModel) {
     setState(() {
-      int index = memberFormController.hobbiesList
+      int index = hobbiesList
           .indexWhere((element) => element.hobbyModel.id == hobbyModel.id);
 
-      if (memberFormController.hobbiesList.isNotEmpty) {
+      if (hobbiesList.isNotEmpty) {
         print("Deleted");
-        memberFormController.hobbiesList.removeAt(index);
+        hobbiesList.removeAt(index);
       }
     });
   }
@@ -76,7 +80,7 @@ class _MemberFormState extends State<MemberForm> {
       child: Container(
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: Color(0xff2E387C)),
+            borderRadius: BorderRadius.circular(12), color: Colors.grey),
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,9 +117,11 @@ class _MemberFormState extends State<MemberForm> {
             SourceCheckBox(
               memberModel: widget.memberModel,
             ),
-            AddHobby(addHobby: () {
-              addHobby();
-            })
+            AddHobby(
+                hobbiesList: hobbiesList,
+                addHobby: () {
+                  addHobby();
+                })
           ],
         ),
       ),

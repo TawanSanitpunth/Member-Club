@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/view/club_member_form.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           child: Center(
                             child: Text(
-                                '${memberFormController.clubList[index].clubName}'),
+                              '${memberFormController.clubList[index].clubName}',
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           )),
                       Container(
                         padding: const EdgeInsets.all(8),
@@ -76,10 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: memberFormController.memberList.length,
+                          itemCount: memberFormController
+                              .clubList[index].listmember?.length,
                           itemBuilder: (context, i) {
                             var clubList = memberFormController
                                 .clubList[index].listmember?[i];
+                            log(clubList.toString());
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -91,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     'Facebook profile Url: ${clubList?.fbProfile ?? "-"}'),
                                 Text('Line id: ${clubList?.lineId ?? "-"}'),
                                 Text('Gender: ${clubList?.gender}'),
-                                Text('${clubList?.birthDate}'),
+                                Text('Birth date: ${clubList?.birthDate}'),
                                 Text('Address: ${clubList?.address ?? "-"}'),
                                 Text(
                                     'Address line 2: ${clubList?.addressLine2 ?? "-"}'),
@@ -116,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          memberFormController.memberList.clear();
           memberFormController.memberForm.clear();
           Get.to(const ClubMemberForm());
         },

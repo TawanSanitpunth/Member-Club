@@ -47,7 +47,7 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                         FocusScope.of(context).unfocus();
                         age = dateNow.difference(newDate).inDays ~/ 365;
                         if (age > 0) {
-                          widget.memberModel.birthDate = age.toString();
+                          widget.memberModel.birthDate = birthDay;
                           memberFormController.age.value = age;
                           memberFormController.isValidateDate.value = true;
                         } else {
