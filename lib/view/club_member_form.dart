@@ -25,24 +25,25 @@ class ClubMemberForm extends StatefulWidget {
 
 class _ClubMemberFormState extends State<ClubMemberForm> {
   var uuid = const Uuid();
-  final formKey = GlobalKey<FormState>();
   MemberFormController memberFormController = Get.put(MemberFormController());
   TextEditingController clubNameController = TextEditingController();
-  List<MemberModel> memberList = <MemberModel>[];
+  MemberModel member = MemberModel();
+  List<MemberModel> formList = <MemberModel>[];
 
   addForm() {
     setState(() {
       MemberModel memberModel = MemberModel(id: uuid.v1());
       memberFormController.memberForm.add(MemberForm(
         memberModel: memberModel,
-        index: memberFormController.memberForm.length,
         removeForm: () {
           removeForm(memberModel);
         },
       ));
-      memberList.add(memberModel);
+      formList.add(memberModel);
       memberFormController.isValidateRadio.value = false;
       memberFormController.radioValue.value == 0;
+      member = memberModel;
+      memberFormController.isValidate.value = false;
     });
   }
 
@@ -54,7 +55,7 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
       if (memberFormController.memberForm.isNotEmpty) {
         print("Deleted");
         memberFormController.memberForm.removeAt(index);
-        memberList.removeAt(index);
+        formList.removeAt(index);
       }
     });
   }
@@ -63,115 +64,141 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
     memberFormController.isValidateRadio.value = true;
     memberFormController.radioValue.value == 0;
     log(memberFormController.isValidateRadio.value.toString());
-    if (memberFormController.memberForm.isNotEmpty) {
-      if (formKey.currentState!.validate() &&
-          memberFormController.radioValue.value != 0) {
-        formKey.currentState!.save();
-        log(memberFormController.clubList.toSet().toString());
-        memberFormController.clubList.add(ClubModel(
-            clubName: clubNameController.text, listmember: memberList));
-        log(memberFormController.clubList.toSet().toString());
-        print(memberFormController.clubList.length);
-        Get.to(const MyHomePage());
-        memberFormController.isValidateRadio.value = true;
-        memberFormController.isValidateDate.value = true;
-      }
+    if (memberFormController.formKey.currentState!.validate()) {
+      memberFormController.formKey.currentState!.save();
+      memberFormController.clubList.add(ClubModel(
+          clubName: clubNameController.text,
+          listmember: memberFormController.memberList));
+      log(memberFormController.clubList.toSet().toString());
+      print(memberFormController.clubList.length);
+      Get.off(const MyHomePage());
     }
   }
 
   saveMock() {
-    List<MemberModel> mockData = [
-      MemberModel(
-        id: uuid.v1(),
-        firstName: "firstName ${memberFormController.clubList.length}",
-        lastName: "lastName ${memberFormController.clubList.length}",
-        gender: "Male ${memberFormController.clubList.length}",
-        birthDate: "18/06/1994${memberFormController.clubList.length}",
-        phoneNumber: "1234567890${memberFormController.clubList.length}",
-        city: "city${memberFormController.clubList.length}",
-        province: "Province${memberFormController.clubList.length}",
-        country: "Country${memberFormController.clubList.length}",
-        zipCode: "5000${memberFormController.clubList.length}",
-      )
-    ];
-    memberFormController.clubList
-        .add(ClubModel(clubName: "Test", listmember: mockData));
+    MemberModel mockData = MemberModel(
+      id: uuid.v1(),
+      firstName: "firstName ${memberFormController.memberList.length}",
+      lastName: "lastName ${memberFormController.memberList.length}",
+      gender: "Male ${memberFormController.memberList.length}",
+      birthDate: "18/06/1994${memberFormController.memberList.length}",
+      phoneNumber: "1234567890${memberFormController.memberList.length}",
+      city: "city${memberFormController.memberList.length}",
+      province: "Province${memberFormController.memberList.length}",
+      country: "Country${memberFormController.memberList.length}",
+      zipCode: "5000${memberFormController.memberList.length}",
+    );
+    memberFormController.memberList.add(mockData);
+    memberFormController.isValidate.value = true;
+    setState(() {});
     log(memberFormController.clubList.toSet().toString());
-    Get.to(const MyHomePage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(15),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Club name';
-                      }
-                      if (memberList.isEmpty) {
-                        return 'Please enter your member atlease 1';
-                      }
-                      return null;
-                    },
-                    controller: clubNameController,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.all(20),
-                      counter: Text(''),
-                      label: Text("Club name"),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(15),
+              child: Form(
+                key: memberFormController.formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      validator: (value) {
+                        if ((value == null || value.isEmpty) &&
+                            memberFormController.memberList.isNotEmpty) {
+                          return 'Please enter your Club name';
+                        }
+                        return null;
+                      },
+                      controller: clubNameController,
+                      keyboardType: TextInputType.name,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.all(20),
+                        counter: Text(''),
+                        label: Text("Club name"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  memberFormController.memberForm.isEmpty
-                      ? Container()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: memberFormController.memberForm.length,
-                          itemBuilder: (context, index) {
-                            return memberFormController.memberForm[index];
-                          },
-                        ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonWidget(
-                    title: 'Add Member',
-                    ontap: () {
-                      addForm();
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonWidget(
-                    title: 'Summit',
-                    ontap: () {
-                      onSave();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ButtonWidget(
-                    title: 'Test',
-                    ontap: () {
-                      saveMock();
-                    },
-                  )
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Obx(
+                      () {
+                        if (memberFormController.memberList.isEmpty) {
+                          return Container();
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: memberFormController.memberList.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 5),
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color(0xFF3F4DB0)),
+                                child: Text(
+                                  'Member ${index + 1} : ${memberFormController.memberList[index].firstName}',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
+                    memberFormController.memberForm.isEmpty
+                        ? Container()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: memberFormController.memberForm.length,
+                            itemBuilder: (context, index) {
+                              return memberFormController.memberForm[index];
+                            },
+                          ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ButtonWidget(
+                      title: 'Add Member',
+                      ontap: () {
+                        addForm();
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    memberFormController.memberList.isEmpty ||
+                            formList.isNotEmpty
+                        ? Container()
+                        : ButtonWidget(
+                            title: 'Submit',
+                            ontap: () {
+                              onSave();
+                            },
+                          ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ButtonWidget(
+                      title: 'Test',
+                      ontap: () {
+                        saveMock();
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),

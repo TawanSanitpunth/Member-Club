@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import '../member_form.dart';
 
 class GenderRadio extends StatefulWidget {
-  const GenderRadio({
+  GenderRadio({
     Key? key,
     required this.widget,
+    required this.isPickGender,
   }) : super(key: key);
   final MemberForm widget;
+  late bool isPickGender;
 
   @override
   State<GenderRadio> createState() => _GenderRadioState();
@@ -38,9 +40,8 @@ class _GenderRadioState extends State<GenderRadio> {
                         onChanged: (int? index) {
                           setState(() {
                             radioValue = index!;
-                            memberFormController.radioValue.value = index;
                             widget.widget.memberModel.gender = "Male";
-                            memberFormController.isValidateRadio.value = true;
+                            widget.isPickGender = true;
                           });
                         }),
                     const Text('Male')
@@ -54,9 +55,8 @@ class _GenderRadioState extends State<GenderRadio> {
                         onChanged: (int? index) {
                           setState(() {
                             radioValue = index!;
-                            memberFormController.radioValue.value = index;
                             widget.widget.memberModel.gender = "Female";
-                            memberFormController.isValidateRadio.value = true;
+                            widget.isPickGender = true;
                           });
                         }),
                     const Text('Female')
@@ -66,26 +66,15 @@ class _GenderRadioState extends State<GenderRadio> {
             ),
           ],
         ),
-        // memberFormController.radioValue.value == 0 &&
-        //         memberFormController.isValidateRadio.value == true
-        //     ? const Text(
-        //         'Please select your gender',
-        //         style: TextStyle(color: Color(0xffD53F45)),
-        //       )
-        //     : Container(),
-        Obx((() {
-          if (memberFormController.radioValue.value == 0 &&
-              memberFormController.isValidateRadio.value == true) {
-            return const Center(
-              child: Text(
+        widget.isPickGender
+            ? Container()
+            : const Text(
                 'Please select your gender',
                 style: TextStyle(color: Color(0xffD53F45)),
               ),
-            );
-          } else {
-            return Container();
-          }
-        })),
+        SizedBox(
+          height: 10,
+        )
       ],
     );
   }

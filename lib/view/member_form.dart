@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/model/member_model.dart';
+import 'package:club_member/view/components/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -26,11 +29,9 @@ import 'hobby_form.dart';
 class MemberForm extends StatefulWidget {
   const MemberForm({
     Key? key,
-    required this.index,
     required this.memberModel,
     required this.removeForm,
   }) : super(key: key);
-  final int index;
   final MemberModel memberModel;
   final Function removeForm;
 
@@ -40,9 +41,24 @@ class MemberForm extends StatefulWidget {
 
 class _MemberFormState extends State<MemberForm> {
   MemberFormController memberFormController = Get.find();
+  GlobalKey<FormState> memberFormKey = GlobalKey<FormState>();
   Uuid uuid = const Uuid();
-
+  bool isValidateGender = true;
+  bool isValidateBirthDate = true;
   List<HobbyForm> hobbiesList = List.empty(growable: true);
+  addForm() {
+    setState(() {
+      if (memberFormKey.currentState!.validate() &&
+          isValidateGender &&
+          isValidateBirthDate) {
+        memberFormKey.currentState!.save();
+        memberFormController.memberList.add(widget.memberModel);
+        log(memberFormController.memberList.toSet().toString());
+        widget.removeForm();
+      }
+    });
+  }
+
   addHobby() {
     setState(() {
       HobbyModel hobbyModel = HobbyModel(
@@ -77,52 +93,102 @@ class _MemberFormState extends State<MemberForm> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Container(
-        margin: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: Colors.grey),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Member  ${widget.index}'),
-                IconButton(
-                    onPressed: () {
-                      widget.removeForm();
-                    },
-                    icon: const Icon(Icons.delete))
-              ],
-            ),
-            FirstNameTextField(widget: widget),
-            LastNameTextField(widget: widget),
-            PhoneTextField(widget: widget),
-            WebTextField(widget: widget),
-            FaceBookTextField(widget: widget),
-            LineTextField(widget: widget),
-            GenderRadio(
-              widget: widget,
-            ),
-            BirthDatePicker(
-              memberModel: widget.memberModel,
-            ),
-            AddressTextField(widget: widget),
-            AddressLine2TextField(widget: widget),
-            CityTextField(widget: widget),
-            ProvinceTextField(widget: widget),
-            ZipCodeTextField(widget: widget),
-            CountryTextField(widget: widget),
-            SourceCheckBox(
-              memberModel: widget.memberModel,
-            ),
-            AddHobby(
-                hobbiesList: hobbiesList,
-                addHobby: () {
-                  addHobby();
-                })
-          ],
+      child: Form(
+        key: memberFormKey,
+        child: Container(
+          margin: const EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12), color: Colors.grey),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Add member'),
+                  IconButton(
+                      onPressed: () {
+                        widget.removeForm();
+                      },
+                      icon: const Icon(Icons.delete))
+                ],
+              ),
+              FirstNameTextField(
+                widget: widget,
+              ),
+              LastNameTextField(
+                widget: widget,
+              ),
+              PhoneTextField(
+                widget: widget,
+              ),
+              WebTextField(
+                widget: widget,
+              ),
+              FaceBookTextField(
+                widget: widget,
+              ),
+              LineTextField(
+                widget: widget,
+              ),
+              GenderRadio(
+                widget: widget,
+                isPickGender: isValidateGender,
+              ),
+              BirthDatePicker(
+                memberModel: widget.memberModel,
+                birthDateValidate: isValidateBirthDate,
+              ),
+              AddressTextField(
+                widget: widget,
+              ),
+              AddressLine2TextField(
+                widget: widget,
+              ),
+              CityTextField(
+                widget: widget,
+              ),
+              ProvinceTextField(
+                widget: widget,
+              ),
+              ZipCodeTextField(
+                widget: widget,
+              ),
+              CountryTextField(
+                widget: widget,
+              ),
+              SourceCheckBox(
+                memberModel: widget.memberModel,
+              ),
+              AddHobby(
+                  hobbiesList: hobbiesList,
+                  addHobby: () {
+                    addHobby();
+                  }),
+              ButtonWidget(
+                  ontap: () {
+                    if (widget.memberModel.gender == null) {
+                      isValidateGender = false;
+                      addForm();
+                    }
+                    if (widget.memberModel.birthDate == null) {
+                      isValidateBirthDate = false;
+                      addForm();
+                    } 
+                    else {
+                      isValidateBirthDate = true;
+                    }
+                    if (widget.memberModel.gender != null &&
+                        widget.memberModel.birthDate != null) {
+                      isValidateGender = true;
+                      isValidateBirthDate = true;
+                      addForm();
+                    }
+                  },
+                  title: "Submit member")
+            ],
+          ),
         ),
       ),
     );

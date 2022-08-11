@@ -4,6 +4,7 @@ import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/view/club_member_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -92,6 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text('First name: ${clubList?.firstName}'),
                                 Text('Last name: ${clubList?.lastName}'),
                                 Text('Phone: ${clubList?.phoneNumber}'),
+                                // Text(
+                                //     'Phone ${NumberFormat("###-#######").format(clubList?.phoneNumber)}'),
                                 Text('Web Url: ${clubList?.webUrl ?? "-"}'),
                                 Text(
                                     'Facebook profile Url: ${clubList?.fbProfile ?? "-"}'),
@@ -123,6 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           memberFormController.memberForm.clear();
+          memberFormController.memberList.clear();
           Get.to(const ClubMemberForm());
         },
         tooltip: 'Increment',

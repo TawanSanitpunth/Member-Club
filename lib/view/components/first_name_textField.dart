@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import '../member_form.dart';
 
 class FirstNameTextField extends StatelessWidget {
-  const FirstNameTextField({
-    Key? key,
-    required this.widget,
-  }) : super(key: key);
+  const FirstNameTextField({Key? key, required this.widget}) : super(key: key);
 
   final MemberForm widget;
 
