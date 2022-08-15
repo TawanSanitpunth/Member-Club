@@ -1,4 +1,5 @@
 import 'package:club_member/controller/member_form_controller.dart';
+import 'package:club_member/model/hobby_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,10 +7,13 @@ import '../hobby_form.dart';
 import 'button_widget.dart';
 
 class AddHobby extends StatefulWidget {
-  const AddHobby({Key? key, required this.addHobby, required this.hobbiesList})
-      : super(key: key);
+  const AddHobby({
+    Key? key,
+    required this.addHobby,
+    required this.hobbiesList,
+  }) : super(key: key);
   final Function addHobby;
-  final List<HobbyForm> hobbiesList;
+  final List<HobbyFormModel> hobbiesList;
 
   @override
   State<AddHobby> createState() => _AddHobbyState();
@@ -28,7 +32,11 @@ class _AddHobbyState extends State<AddHobby> {
                 itemCount: widget.hobbiesList.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: ((context, index) {
-                  return widget.hobbiesList[index];
+                  final listHobby = widget.hobbiesList[index];
+                  return HobbyForm(
+                    listHobby: listHobby,
+                    index: index,
+                  );
                 }),
               ),
         widget.hobbiesList.length == 5

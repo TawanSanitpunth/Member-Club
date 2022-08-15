@@ -27,13 +27,22 @@ class PhoneTextField extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your phone';
                 }
-                if (value.length != 10) {
+
+                // if (!RegExp(r'^66|0').hasMatch(value)) {
+                //   return 'Phone number should start with 0 or 66';
+                // }
+
+                if (!RegExp(r'^(?:[+66]+9)?[0-9]$').hasMatch(value)) {
                   return 'Your phone number incorrect';
                 }
+
+                // if (value.length != 10) {
+                //   return 'Your phone number incorrect';
+                // }
                 return null;
               },
               keyboardType: TextInputType.phone,
-              maxLength: 10,
+              maxLength: 11,
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.all(20),
                 counter: Text(''),

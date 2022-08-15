@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../model/member_model.dart';
 
@@ -38,19 +39,27 @@ class MemberItem extends StatelessWidget {
           Text('Phone: ${memberList?.phoneNumber}'),
           // Text(
           //     'Phone ${NumberFormat("###-#######").format(memberList?.phoneNumber)}'),
-          Text('Web Url: ${memberList?.webUrl ?? "-"}'),
-          Text('Facebook profile Url: ${memberList?.fbProfile ?? "-"}'),
-          Text('Line id: ${memberList?.lineId ?? "-"}'),
+          Text(
+              'Web Url: ${memberList?.webUrl == "" ? " - " : memberList?.webUrl}'),
+          Text(
+              'Facebook profile Url: ${memberList?.fbProfile == "" ? " - " : memberList?.fbProfile}'),
+          Text(
+              'Line id: ${memberList?.lineId == "" ? " - " : memberList?.lineId}'),
           Text('Gender: ${memberList?.gender}'),
           Text('Birth date: ${memberList?.birthDate}'),
-          Text('Address: ${memberList?.address ?? "-"}'),
-          Text('Address line 2: ${memberList?.addressLine2 ?? "-"}'),
-          Text('City: ${memberList?.city}'),
-          Text('State/Province: ${memberList?.province}'),
-          Text('Zipcode: ${memberList?.address ?? "-"}'),
-          Text('Country: ${memberList?.country ?? "-"}'),
-          Text('List sourch : ${memberList?.listSourch?.join(",") ?? "-"}'),
-          Text('List hobby : ${memberList?.listHobby?.join(",") ?? "-"}'),
+          Text(
+              'Address: ${memberList?.address == "" ? " - " : memberList?.address}'),
+          Text(
+              'Address line 2: ${memberList?.addressLine2 == "" ? " - " : memberList?.addressLine2}'),
+          Text('City: ${memberList?.city == "" ? " - " : memberList?.city}'),
+          Text(
+              'State/Province: ${memberList?.province == "" ? " - " : memberList?.province}'),
+          Text(
+              'Zipcode: ${memberList?.address == "" ? " - " : memberList?.address}'),
+          Text(
+              'Country: ${memberList?.country == "" ? " - " : memberList?.country}'),
+          Text('List sourch : ${memberList?.listSourch?.join(",") ?? " - "}'),
+          Text('List hobby : ${memberList?.listHobby?.join(",") ?? " - "}'),
         ],
       ),
     );

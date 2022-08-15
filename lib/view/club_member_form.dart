@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 import 'components/button_widget.dart';
+import 'components/club_name_textField.dart';
 
 class ClubMemberForm extends StatefulWidget {
   const ClubMemberForm({Key? key}) : super(key: key);
@@ -22,28 +23,26 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
   var uuid = const Uuid();
   MemberFormController memberFormController = Get.put(MemberFormController());
   TextEditingController clubNameController = TextEditingController();
-  List<MemberModel> formList = <MemberModel>[];
+  List<MemberForm> formList = <MemberForm>[];
 
   addForm() {
     setState(() {
       MemberModel memberModel = MemberModel(id: uuid.v1());
-      memberFormController.memberForm.add(MemberForm(
+      formList.add(MemberForm(
         memberModel: memberModel,
         removeForm: () {
           removeForm(memberModel);
         },
       ));
-      formList.add(memberModel);
     });
   }
 
   removeForm(MemberModel member) {
     setState(() {
-      int index = memberFormController.memberForm
-          .indexWhere((element) => element.memberModel.id == member.id);
+      int index =
+          formList.indexWhere((element) => element.memberModel.id == member.id);
 
-      if (memberFormController.memberForm.isNotEmpty) {
-        memberFormController.memberForm.removeAt(index);
+      if (formList.isNotEmpty) {
         formList.removeAt(index);
       }
     });
@@ -54,7 +53,7 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
       memberFormController.formKey.currentState!.save();
       memberFormController.clubList.add(ClubModel(
           clubName: clubNameController.text,
-          listmember: memberFormController.memberList));
+          listmember: List.from(memberFormController.memberList)));
       log(memberFormController.clubList.toSet().toString());
       Get.off(const MyHomePage());
     }
@@ -73,27 +72,9 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
                 key: memberFormController.formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      validator: (value) {
-                        if ((value == null || value.isEmpty) &&
-                            memberFormController.memberList.isNotEmpty) {
-                          return 'Please enter your Club name';
-                        }
-                        return null;
-                      },
-                      controller: clubNameController,
-                      keyboardType: TextInputType.name,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.all(20),
-                        counter: Text(''),
-                        label: Text("Club name"),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
+                    ClubNameTextField(
+                        memberList: memberFormController.memberList,
+                        controller: clubNameController),
                     const SizedBox(
                       height: 10,
                     ),
@@ -123,14 +104,14 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
                         }
                       },
                     ),
-                    memberFormController.memberForm.isEmpty
+                    formList.isEmpty
                         ? Container()
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: memberFormController.memberForm.length,
+                            itemCount: formList.length,
                             itemBuilder: (context, index) {
-                              return memberFormController.memberForm[index];
+                              return formList[index];
                             },
                           ),
                     const SizedBox(

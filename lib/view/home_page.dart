@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           : ListClub(memberFormController: memberFormController),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          memberFormController.memberForm.clear();
+          // memberFormController.memberForm.clear();
           memberFormController.memberList.clear();
           Get.to(const ClubMemberForm());
         },

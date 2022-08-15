@@ -1,29 +1,17 @@
-import 'package:club_member/model/hobby_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../controller/member_form_controller.dart';
-import '../model/member_model.dart';
+import '../model/hobby_form_model.dart';
 
-class HobbyForm extends StatefulWidget {
-  const HobbyForm(
-      {Key? key,
-      required this.index,
-      required this.hobbyModel,
-      required this.removeHobby,
-      required this.memberModel})
-      : super(key: key);
+class HobbyForm extends StatelessWidget {
+  const HobbyForm({
+    Key? key,
+    required this.listHobby,
+    required this.index,
+  }) : super(key: key);
+
+  final HobbyFormModel listHobby;
   final int index;
-  final HobbyModel hobbyModel;
-  final Function removeHobby;
-  final MemberModel memberModel;
 
-  @override
-  State<HobbyForm> createState() => _HobbyFormState();
-}
-
-class _HobbyFormState extends State<HobbyForm> {
-  MemberFormController memberFormController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,8 +22,8 @@ class _HobbyFormState extends State<HobbyForm> {
           Expanded(
             child: TextFormField(
               onSaved: (text) {
-                widget.hobbyModel.title = text;
-                widget.memberModel.listHobby?.add(text ?? "");
+                listHobby.hobbyModel?.title = text;
+                listHobby.memberModel?.listHobby?.add(text ?? "");
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -47,7 +35,7 @@ class _HobbyFormState extends State<HobbyForm> {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(20),
                 counter: const Text(''),
-                label: Text('Hobby #${widget.index + 1}'),
+                label: Text('Hobby #${index + 1}'),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
@@ -58,7 +46,7 @@ class _HobbyFormState extends State<HobbyForm> {
           ),
           IconButton(
               onPressed: () {
-                widget.removeHobby();
+                listHobby.removeHobby!();
               },
               icon: const Icon(Icons.delete))
         ],

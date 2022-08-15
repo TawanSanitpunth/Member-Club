@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/model/member_model.dart';
 import 'package:club_member/view/components/button_widget.dart';
+import 'package:club_member/model/hobby_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -24,7 +25,6 @@ import 'components/province_textField.dart';
 import 'components/source_checkBox.dart';
 import 'components/web_textField.dart';
 import 'components/zip_code_textField.dart';
-import 'hobby_form.dart';
 
 class MemberForm extends StatefulWidget {
   const MemberForm({
@@ -45,7 +45,7 @@ class _MemberFormState extends State<MemberForm> {
   Uuid uuid = const Uuid();
   bool isValidateGender = true;
   bool isValidateBirthDate = true;
-  List<HobbyForm> hobbiesList = List.empty(growable: true);
+  List<HobbyFormModel> hobbiesList = List.empty(growable: true);
   addForm() {
     setState(() {
       if (memberFormKey.currentState!.validate() &&
@@ -65,8 +65,7 @@ class _MemberFormState extends State<MemberForm> {
         id: uuid.v1(),
       );
       widget.memberModel.listHobby = [];
-      hobbiesList.add(HobbyForm(
-          index: hobbiesList.length,
+      hobbiesList.add(HobbyFormModel(
           hobbyModel: hobbyModel,
           memberModel: widget.memberModel,
           removeHobby: () {
@@ -78,7 +77,7 @@ class _MemberFormState extends State<MemberForm> {
   removeHobby(HobbyModel hobbyModel) {
     setState(() {
       int index = hobbiesList
-          .indexWhere((element) => element.hobbyModel.id == hobbyModel.id);
+          .indexWhere((element) => element.hobbyModel?.id == hobbyModel.id);
 
       if (hobbiesList.isNotEmpty) {
         hobbiesList.removeAt(index);
