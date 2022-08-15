@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../member_form.dart';
 
+// ignore: must_be_immutable
 class GenderRadio extends StatefulWidget {
   GenderRadio({
     Key? key,
@@ -72,7 +73,7 @@ class _GenderRadioState extends State<GenderRadio> {
                 'Please select your gender',
                 style: TextStyle(color: Color(0xffD53F45)),
               ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         )
       ],

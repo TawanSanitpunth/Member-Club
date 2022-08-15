@@ -81,7 +81,6 @@ class _MemberFormState extends State<MemberForm> {
           .indexWhere((element) => element.hobbyModel.id == hobbyModel.id);
 
       if (hobbiesList.isNotEmpty) {
-        print("Deleted");
         hobbiesList.removeAt(index);
       }
     });
@@ -98,7 +97,9 @@ class _MemberFormState extends State<MemberForm> {
         child: Container(
           margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12), color: Colors.grey),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.black, width: 0.8),
+          ),
           padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,8 +176,7 @@ class _MemberFormState extends State<MemberForm> {
                     if (widget.memberModel.birthDate == null) {
                       isValidateBirthDate = false;
                       addForm();
-                    } 
-                    else {
+                    } else {
                       isValidateBirthDate = true;
                     }
                     if (widget.memberModel.gender != null &&

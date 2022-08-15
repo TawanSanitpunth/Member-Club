@@ -1,4 +1,3 @@
-import 'package:club_member/model/hobby_model.dart';
 
 class MemberModel {
   String? id;

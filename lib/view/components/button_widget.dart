@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({Key? key, required this.ontap, required this.title})
@@ -16,14 +14,15 @@ class ButtonWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8), color: Colors.teal),
+            borderRadius: BorderRadius.circular(8),
+            color: const Color(0xFF3F4DB0)),
         height: 56,
         width: double.maxFinite,
         child: Center(
           child: Text(
             title,
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),
+            style: const TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
           ),
         ),
       ),

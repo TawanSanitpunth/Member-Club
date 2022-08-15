@@ -3,13 +3,9 @@
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../model/check_box_model.dart';
-import '../../model/hobby_model.dart';
 import '../../model/member_model.dart';
-import '../hobby_form.dart';
-import 'button_widget.dart';
 
 class SourceCheckBox extends StatefulWidget {
   const SourceCheckBox({

@@ -1,9 +1,6 @@
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../hobby_form.dart';
 import 'button_widget.dart';
@@ -29,7 +26,7 @@ class _AddHobbyState extends State<AddHobby> {
             : ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.hobbiesList.length,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: ((context, index) {
                   return widget.hobbiesList[index];
                 }),

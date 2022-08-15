@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:club_member/model/club_model.dart';
 import 'package:club_member/model/member_model.dart';
@@ -25,12 +24,6 @@ class MemberFormController extends GetxController {
   List<MemberForm> memberForm = <MemberForm>[];
   RxList<MemberModel> memberList = List<MemberModel>.empty().obs;
   RxList<ClubModel> clubList = List<ClubModel>.empty().obs;
-  RxInt age = 0.obs;
-  RxBool isValidateRadio = true.obs;
-  RxBool isValidateDate = false.obs;
-  RxBool isValidate = false.obs;
-  bool isCheckedGender = true;
-  RxInt radioValue = 0.obs;
   List<CheckboxModel> item = [
     CheckboxModel(title: "Website ads"),
     CheckboxModel(title: "Blog Post"),
@@ -38,15 +31,4 @@ class MemberFormController extends GetxController {
     CheckboxModel(title: "Google search engine"),
     CheckboxModel(title: "Etc"),
   ];
-  void submit(MemberModel memberModel, Function removeForm) {
-    final isValid = formKey.currentState!.validate();
-    Get.focusScope!.unfocus();
-    if (isValid) {
-      isValidate.value = isValid;
-      formKey.currentState!.save();
-      memberList.add(memberModel);
-      log(memberList.toSet().toString());
-      removeForm();
-    }
-  }
 }

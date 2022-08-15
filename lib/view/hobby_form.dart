@@ -1,7 +1,5 @@
 import 'package:club_member/model/hobby_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 import '../controller/member_form_controller.dart';
@@ -38,7 +36,6 @@ class _HobbyFormState extends State<HobbyForm> {
               onSaved: (text) {
                 widget.hobbyModel.title = text;
                 widget.memberModel.listHobby?.add(text ?? "");
-                print(widget.memberModel.listHobby);
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -48,10 +45,10 @@ class _HobbyFormState extends State<HobbyForm> {
               },
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(20),
-                counter: Text(''),
+                contentPadding: const EdgeInsets.all(20),
+                counter: const Text(''),
                 label: Text('Hobby #${widget.index + 1}'),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -63,7 +60,7 @@ class _HobbyFormState extends State<HobbyForm> {
               onPressed: () {
                 widget.removeHobby();
               },
-              icon: Icon(Icons.delete))
+              icon: const Icon(Icons.delete))
         ],
       ),
     );

@@ -1,14 +1,12 @@
-import 'dart:developer';
 
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/member_model.dart';
 
+// ignore: must_be_immutable
 class BirthDatePicker extends StatefulWidget {
   BirthDatePicker(
       {Key? key, required this.memberModel, required this.birthDateValidate})
@@ -52,14 +50,10 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                     age = dateNow.difference(newDate).inDays ~/ 365;
                     if (age > 0) {
                       widget.memberModel.birthDate = birthDay;
-                      memberFormController.age.value = age;
                       widget.birthDateValidate = true;
-                      memberFormController.isValidateDate.value = true;
                     } else {
                       widget.birthDateValidate = false;
                       widget.memberModel.birthDate = null;
-                      memberFormController.isValidateDate.value = false;
-                      log(widget.memberModel.birthDate ?? "");
                     }
                   });
                 },
@@ -78,19 +72,36 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                               ),
                             ),
                           )
-                        : Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Center(
-                              child: Text(
-                                birthDay,
-                                style: const TextStyle(color: Colors.black54),
-                              ),
-                            ),
-                          )
+                        : age == 0
+                            ? Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    birthDay,
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    birthDay,
+                                    style:
+                                        const TextStyle(color: Colors.black54),
+                                  ),
+                                ),
+                              )
                     : Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -108,21 +119,28 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         widget.birthDateValidate
             ? birthDay == "Select Date"
                 ? Container()
-                : Row(
-                    children: <Widget>[
-                      const Text('Age : '),
-                      SizedBox(
-                        width: 60,
-                      ),
-                      Text('$age years old'),
-                    ],
-                  )
+                : age == 0
+                    ? const Center(
+                        child: Text(
+                          'Your birth date incorrect',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      )
+                    : Row(
+                        children: <Widget>[
+                          const Text('Age : '),
+                          const SizedBox(
+                            width: 60,
+                          ),
+                          Text('$age years old'),
+                        ],
+                      )
             : birthDay == 'Select Date'
                 ? const Center(
                     child: Text(
