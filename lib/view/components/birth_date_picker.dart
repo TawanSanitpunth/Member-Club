@@ -1,4 +1,3 @@
-
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +45,6 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                     birthDay =
                         DateFormat('MM/dd/yyy').format(newDate).toString();
                     FocusScope.of(context).unfocus();
-                    FocusScope.of(context).unfocus();
                     age = dateNow.difference(newDate).inDays ~/ 365;
                     if (age > 0) {
                       widget.memberModel.birthDate = birthDay;
@@ -76,14 +74,15 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                             ? Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.red, width: 1),
+                                  border: Border.all(
+                                      color: const Color(0xffD53F45), width: 1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Center(
                                   child: Text(
                                     birthDay,
-                                    style: const TextStyle(color: Colors.red),
+                                    style: const TextStyle(
+                                        color: Color(0xffD53F45)),
                                   ),
                                 ),
                               )
@@ -105,13 +104,14 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                     : Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.red, width: 1),
+                          border: Border.all(
+                              color: const Color(0xffD53F45), width: 1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Center(
                           child: Text(
                             birthDay,
-                            style: const TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Color(0xffD53F45)),
                           ),
                         ),
                       ),
@@ -129,7 +129,7 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                     ? const Center(
                         child: Text(
                           'Your birth date incorrect',
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(color: Color(0xffD53F45)),
                         ),
                       )
                     : Row(
@@ -145,13 +145,13 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                 ? const Center(
                     child: Text(
                       'Please select your birthdate',
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Color(0xffD53F45)),
                     ),
                   )
                 : const Center(
                     child: Text(
                       'Your birth date incorrect',
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Color(0xffD53F45)),
                     ),
                   ),
       ],

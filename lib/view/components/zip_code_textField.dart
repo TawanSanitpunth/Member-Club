@@ -16,27 +16,39 @@ class ZipCodeTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
-      child: TextFormField(
-        onSaved: (text) {
-          widget.memberModel.zipCode = text;
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your zip code';
-          }
-          return null;
-        },
-        keyboardType: TextInputType.number,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(20),
-          counter: Text(''),
-          label: Text("Zipcode"),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: TextFormField(
+              onSaved: (text) {
+                widget.memberModel.zipCode = text;
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your zip code';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                contentPadding: EdgeInsets.all(20),
+                counter: Text(''),
+                label: Text("Zipcode"),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          const Text(
+            '*',
+            style: TextStyle(color: Colors.red),
+          )
+        ],
       ),
     );
   }

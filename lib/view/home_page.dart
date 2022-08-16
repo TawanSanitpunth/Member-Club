@@ -35,11 +35,11 @@ class _MyHomePageState extends State<MyHomePage> {
           : ListClub(memberFormController: memberFormController),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // memberFormController.memberForm.clear();
           memberFormController.memberList.clear();
           Get.to(const ClubMemberForm());
         },
         tooltip: 'Increment',
+        backgroundColor: const Color(0xFF3F4DB0),
         child: const Icon(Icons.add),
       ),
     );

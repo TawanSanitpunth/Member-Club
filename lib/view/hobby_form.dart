@@ -25,6 +25,7 @@ class HobbyForm extends StatelessWidget {
                 listHobby.hobbyModel?.title = text;
                 listHobby.memberModel?.listHobby?.add(text ?? "");
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your hobby';

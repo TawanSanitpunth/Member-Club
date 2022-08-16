@@ -23,22 +23,16 @@ class PhoneTextField extends StatelessWidget {
               onSaved: (text) {
                 widget.memberModel.phoneNumber = text;
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your phone';
                 }
 
-                // if (!RegExp(r'^66|0').hasMatch(value)) {
-                //   return 'Phone number should start with 0 or 66';
-                // }
-
-                if (!RegExp(r'^(?:[+66]+9)?[0-9]$').hasMatch(value)) {
+                if (!RegExp(r'^66?[0-9]{10}$|^\0?[0-9]{10}$')
+                    .hasMatch(value)) {
                   return 'Your phone number incorrect';
                 }
-
-                // if (value.length != 10) {
-                //   return 'Your phone number incorrect';
-                // }
                 return null;
               },
               keyboardType: TextInputType.phone,

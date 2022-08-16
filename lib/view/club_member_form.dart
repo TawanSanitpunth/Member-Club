@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/model/club_model.dart';
@@ -41,7 +40,6 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
     setState(() {
       int index =
           formList.indexWhere((element) => element.memberModel.id == member.id);
-
       if (formList.isNotEmpty) {
         formList.removeAt(index);
       }
@@ -54,7 +52,6 @@ class _ClubMemberFormState extends State<ClubMemberForm> {
       memberFormController.clubList.add(ClubModel(
           clubName: clubNameController.text,
           listmember: List.from(memberFormController.memberList)));
-      log(memberFormController.clubList.toSet().toString());
       Get.off(const MyHomePage());
     }
   }

@@ -21,6 +21,7 @@ class FirstNameTextField extends StatelessWidget {
               onSaved: (text) {
                 widget.memberModel.firstName = text;
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your first name';

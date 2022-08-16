@@ -1,5 +1,5 @@
+import 'package:club_member/view/components/text_detail_member.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../model/member_model.dart';
 
@@ -34,32 +34,42 @@ class MemberItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('First name: ${memberList?.firstName}'),
-          Text('Last name: ${memberList?.lastName}'),
-          Text('Phone: ${memberList?.phoneNumber}'),
-          // Text(
-          //     'Phone ${NumberFormat("###-#######").format(memberList?.phoneNumber)}'),
-          Text(
-              'Web Url: ${memberList?.webUrl == "" ? " - " : memberList?.webUrl}'),
-          Text(
-              'Facebook profile Url: ${memberList?.fbProfile == "" ? " - " : memberList?.fbProfile}'),
-          Text(
-              'Line id: ${memberList?.lineId == "" ? " - " : memberList?.lineId}'),
-          Text('Gender: ${memberList?.gender}'),
-          Text('Birth date: ${memberList?.birthDate}'),
-          Text(
-              'Address: ${memberList?.address == "" ? " - " : memberList?.address}'),
-          Text(
-              'Address line 2: ${memberList?.addressLine2 == "" ? " - " : memberList?.addressLine2}'),
-          Text('City: ${memberList?.city == "" ? " - " : memberList?.city}'),
-          Text(
-              'State/Province: ${memberList?.province == "" ? " - " : memberList?.province}'),
-          Text(
-              'Zipcode: ${memberList?.address == "" ? " - " : memberList?.address}'),
-          Text(
-              'Country: ${memberList?.country == "" ? " - " : memberList?.country}'),
-          Text('List sourch : ${memberList?.listSourch?.join(",") ?? " - "}'),
-          Text('List hobby : ${memberList?.listHobby?.join(",") ?? " - "}'),
+          TextDetailMember(
+              textTitle: 'First name', textData: memberList?.firstName ?? ""),
+          TextDetailMember(
+              textTitle: 'Last name', textData: memberList?.lastName ?? ""),
+          TextDetailMember(
+              textTitle: 'Phone', textData: memberList?.phoneNumber ?? ""),
+          TextDetailMember(
+              textTitle: 'Web Url', textData: memberList?.webUrl ?? ""),
+          TextDetailMember(
+              textTitle: 'Facebook profile Url',
+              textData: memberList?.fbProfile ?? ""),
+          TextDetailMember(
+              textTitle: 'Line id', textData: memberList?.lineId ?? ""),
+          TextDetailMember(
+              textTitle: 'Gender', textData: memberList?.gender ?? ""),
+          TextDetailMember(
+              textTitle: 'Birth date', textData: memberList?.birthDate ?? ""),
+          TextDetailMember(
+              textTitle: 'Address', textData: memberList?.address ?? ""),
+          TextDetailMember(
+              textTitle: 'Address line 2',
+              textData: memberList?.addressLine2 ?? ""),
+          TextDetailMember(textTitle: 'City', textData: memberList?.city ?? ""),
+          TextDetailMember(
+              textTitle: 'State/Province',
+              textData: memberList?.province ?? ""),
+          TextDetailMember(
+              textTitle: 'Zipcode', textData: memberList?.zipCode ?? ""),
+          TextDetailMember(
+              textTitle: 'Country', textData: memberList?.country ?? ""),
+          TextDetailMember(
+              textTitle: 'List sourch',
+              textData: memberList?.listSourch?.join(",") ?? ""),
+          TextDetailMember(
+              textTitle: 'List hobby',
+              textData: memberList?.listHobby?.join(",") ?? ""),
         ],
       ),
     );

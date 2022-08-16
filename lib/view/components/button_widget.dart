@@ -10,6 +10,7 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        FocusScope.of(context).unfocus();
         ontap();
       },
       child: Container(

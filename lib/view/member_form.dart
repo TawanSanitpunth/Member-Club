@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:club_member/controller/member_form_controller.dart';
 import 'package:club_member/model/member_model.dart';
@@ -53,7 +52,6 @@ class _MemberFormState extends State<MemberForm> {
           isValidateBirthDate) {
         memberFormKey.currentState!.save();
         memberFormController.memberList.add(widget.memberModel);
-        log(memberFormController.memberList.toSet().toString());
         widget.removeForm();
       }
     });

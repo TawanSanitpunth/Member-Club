@@ -24,6 +24,7 @@ class LastNameTextField extends StatelessWidget {
               onSaved: (text) {
                 widget.memberModel.lastName = text;
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your last name';
